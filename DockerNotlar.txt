@@ -26,3 +26,6 @@ docker stop console_container
 docker attach 5495
 
 Run komutu, create ve start ı aynı anda yapar
+
+container silme komutu
+docker rm f65
