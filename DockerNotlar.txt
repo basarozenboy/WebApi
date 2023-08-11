@@ -1,0 +1,28 @@
+DockerFile aþaðýdaki gibi (.dockerignore içinden bin silinmeli)
+FROM mcr.microsoft.com/dotnet/aspnet
+WORKDIR /app
+COPY bin/Release/net7.0/publish /app/
+ENTRYPOINT ["dotnet", "WebApi.dll"]
+
+Ýmaj oluþturma komutu
+docker build -t udemyconsoleapp ./
+
+imajlarý görme komutu
+docker images
+
+container oluþturma komutu
+docker create --name console_container udemyconsoleapp
+
+containerlarý görme komutu (-a koymazsak sadece çalýþanlar görülüyor)
+docker ps -a
+
+container'i start eder
+docker start console_container
+
+container'i stop eder
+docker stop console_container
+
+Çalýþan uygulamanýn çýktýsýný görmek için kullanýlýr
+docker attach 5495
+
+Run komutu, create ve start ý ayný anda yapar
