@@ -40,6 +40,7 @@ if (app.Environment.IsDevelopment())
 {
     // global cors policy
     app.UseCors(x => x
+    //.WithOrigins("")
         .AllowAnyOrigin()
         .AllowAnyMethod()
         .AllowAnyHeader());
