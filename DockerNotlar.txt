@@ -27,5 +27,6 @@ docker attach 5495
 
 Run komutu, create ve start ý ayný anda yapar
 
-container silme komutu
-docker rm f65
+container silme komutu, force komutu çalýþan containerý da siler, 
+aþaðýdaki komut imajý da siler fakat container üzerinde çalýþýyorsa silinmez
+docker rm f65 --force
