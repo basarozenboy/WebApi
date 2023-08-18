@@ -30,3 +30,12 @@ Run komutu, create ve start ý ayný anda yapar
 container silme komutu, force komutu çalýþan containerý da siler, 
 aþaðýdaki komut imajý da siler fakat container üzerinde çalýþýyorsa silinmez
 docker rm f65 --force
+
+pull komutu - istenilen imajý çekmek için kullanýlýr.
+docker pull mcr.microsoft.com/dotnet/runtime:7.0
+
+push komutu, önce imajýn etiketini güncelliyoruz
+sonra login oluyoruz
+docker tag udemyconsoleapp pashaoo/udemyrepo:v1
+docker login
+docker push pashaoo/udemyrepo:v1
