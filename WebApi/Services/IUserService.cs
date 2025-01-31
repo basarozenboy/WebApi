@@ -10,5 +10,6 @@ public interface IUserService
     void Create(CreateRequest model);
     void Update(int id, UpdateRequest model);
     void Delete(int id);
+    void GenerateAutoData(int itemCount);
 }
 

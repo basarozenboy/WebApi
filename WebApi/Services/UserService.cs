@@ -20,7 +20,7 @@ namespace WebApi.Services
 
         public IEnumerable<User> GetAll()
         {
-            return _context.Users;
+            return _context.Users.OrderByDescending(x => x.Id);
         }
 
         public User GetById(int id)
@@ -70,6 +70,21 @@ namespace WebApi.Services
             var user = _context.Users.Find(id);
             if (user == null) throw new KeyNotFoundException("User not found");
             return user;
+        }
+
+        public void GenerateAutoData(int itemCount)
+        {
+            for (int i = 0; i < itemCount; i++)
+            {
+                var user = new User
+                {
+                    FirstName = "FirstName" + i,
+                    LastName = "LastName" + i,
+                    Email = "email" + i + "@example.com"
+                };
+                _context.Users.Add(user);
+            }
+            _context.SaveChanges();
         }
     }
 }

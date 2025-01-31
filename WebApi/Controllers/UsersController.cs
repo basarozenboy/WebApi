@@ -41,6 +41,13 @@ public class UsersController : ControllerBase
         return Ok(new { message = "User created" });
     }
 
+    [HttpPost ("GenerateAutoData")]
+    public IActionResult Create(int itemCount)
+    {
+        _userService.GenerateAutoData(itemCount);
+        return Ok(new { message = "Users created" });
+    }
+
     [HttpPut("{id}")]
     public IActionResult Update(int id, UpdateRequest model)
     {
