@@ -37,7 +37,9 @@ public class UsersController : ControllerBase
     [HttpPost]
     public IActionResult Create(CreateRequest model)
     {
-        _userService.Create(model);
+        var serviceResult = _userService.Create(model);
+        if (!serviceResult.Success)
+            return BadRequest(new { message = serviceResult.Message }); 
         return Ok(new { message = "User created" });
     }
 

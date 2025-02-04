@@ -28,39 +28,102 @@ namespace WebApi.Services
             return getUser(id);
         }
 
-        public void Create(CreateRequest model)
+        public ServiceResult Create(CreateRequest model)
         {
-            // validate
-            if (_context.Users.Any(x => x.Email == model.Email))
-                throw new AppException("User with the email '" + model.Email + "' already exists");
+            var result = new ServiceResult();
+            try
+            {
+                // validate
+                if (_context.Users.Any(x => x.Email == model.Email))
+                    throw new AppException("User with the email '" + model.Email + "' already exists");
 
-            // map model to new user object
-            var user = _mapper.Map<User>(model);
+                // map model to new user object
+                var user = _mapper.Map<User>(model);
 
-            // save user
-            _context.Users.Add(user);
-            _context.SaveChanges();
+                // save user
+                _context.Users.Add(user);
+                _context.SaveChanges();
+
+                result.Success = true;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = ex.Message;
+            }
+            return result;
         }
 
-        public void Update(int id, UpdateRequest model)
+        public ServiceResult Update(int id, UpdateRequest model)
         {
-            var user = getUser(id);
+            var result = new ServiceResult();
+            try
+            {
+                var user = getUser(id);
 
-            // validate
-            if (model.Email != user.Email && _context.Users.Any(x => x.Email == model.Email))
-                throw new AppException("User with the email '" + model.Email + "' already exists");
+                // validate
+                if (model.Email != user.Email && _context.Users.Any(x => x.Email == model.Email))
+                    throw new AppException("User with the email '" + model.Email + "' already exists");
 
-            // copy model to user and save
-            _mapper.Map(model, user);
-            _context.Users.Update(user);
-            _context.SaveChanges();
+                // copy model to user and save
+                _mapper.Map(model, user);
+                _context.Users.Update(user);
+                _context.SaveChanges();
+
+                result.Success = true;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = ex.Message;
+            }
+            return result;
         }
 
-        public void Delete(int id)
+        public ServiceResult Delete(int id)
         {
-            var user = getUser(id);
-            _context.Users.Remove(user);
-            _context.SaveChanges();
+            var result = new ServiceResult();
+            try
+            {
+                var user = getUser(id);
+                _context.Users.Remove(user);
+                _context.SaveChanges();
+
+                result.Success = true;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = ex.Message;
+            }
+            return result;
+        }
+
+        public ServiceResult GenerateAutoData(int itemCount)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                for (int i = 0; i < itemCount; i++)
+                {
+                    var user = new User
+                    {
+                        FirstName = "FirstName" + i,
+                        LastName = "LastName" + i,
+                        Email = "email" + i + "@example.com"
+                    };
+                    _context.Users.Add(user);
+                }
+                _context.SaveChanges();
+
+                result.Success = true;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = ex.Message;
+            }
+            return result;
         }
 
         // helper methods
@@ -70,21 +133,6 @@ namespace WebApi.Services
             var user = _context.Users.Find(id);
             if (user == null) throw new KeyNotFoundException("User not found");
             return user;
-        }
-
-        public void GenerateAutoData(int itemCount)
-        {
-            for (int i = 0; i < itemCount; i++)
-            {
-                var user = new User
-                {
-                    FirstName = "FirstName" + i,
-                    LastName = "LastName" + i,
-                    Email = "email" + i + "@example.com"
-                };
-                _context.Users.Add(user);
-            }
-            _context.SaveChanges();
         }
     }
 }
