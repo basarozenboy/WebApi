@@ -3,17 +3,21 @@ namespace WebApi.Models.Users;
 using System.ComponentModel.DataAnnotations;
 using WebApi.Entities;
 
-public class UpdateRequest
+public class CreateUser
 {
+
+    [Required]
     public string FirstName { get; set; }
+
+    [Required]
     public string LastName { get; set; }
 
+    [Required]
     [EmailAddress]
     public string Email { get; set; }
 
+    [Required]
+    public string Username { get; set; }
 
-    private string replaceEmptyWithNull(string value)
-    {
-        return string.IsNullOrEmpty(value) ? null : value;
-    }
+    public string Password { get; internal set; }
 }

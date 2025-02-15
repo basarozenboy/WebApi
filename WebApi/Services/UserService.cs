@@ -28,7 +28,7 @@ namespace WebApi.Services
             return getUser(id);
         }
 
-        public ServiceResult Create(CreateRequest model)
+        public ServiceResult Create(CreateUser model)
         {
             var result = new ServiceResult();
             try
@@ -54,7 +54,7 @@ namespace WebApi.Services
             return result;
         }
 
-        public ServiceResult Update(int id, UpdateRequest model)
+        public ServiceResult Update(int id, UpdateUser model)
         {
             var result = new ServiceResult();
             try

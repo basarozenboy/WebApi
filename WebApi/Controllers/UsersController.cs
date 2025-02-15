@@ -35,7 +35,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Create(CreateRequest model)
+    public IActionResult Create(CreateUser model)
     {
         var serviceResult = _userService.Create(model);
         if (!serviceResult.Success)
@@ -51,7 +51,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public IActionResult Update(int id, UpdateRequest model)
+    public IActionResult Update(int id, UpdateUser model)
     {
         _userService.Update(id, model);
         return Ok(new { message = "User updated" });
