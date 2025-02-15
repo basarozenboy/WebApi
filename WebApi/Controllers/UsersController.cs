@@ -1,6 +1,7 @@
 ﻿namespace WebApi.Controllers;
 
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Models.Users;
 using WebApi.Services;
@@ -21,6 +22,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     public IActionResult GetAll()
     {
         var users = _userService.GetAll();
@@ -28,6 +30,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize]
     public IActionResult GetById(int id)
     {
         var user = _userService.GetById(id);
@@ -35,6 +38,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     public IActionResult Create(CreateUser model)
     {
         var serviceResult = _userService.Create(model);
@@ -44,6 +48,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost ("GenerateAutoData")]
+    [Authorize]
     public IActionResult Create(int itemCount)
     {
         _userService.GenerateAutoData(itemCount);
@@ -51,6 +56,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize]
     public IActionResult Update(int id, UpdateUser model)
     {
         _userService.Update(id, model);
@@ -58,6 +64,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize]
     public IActionResult Delete(int id)
     {
         _userService.Delete(id);
