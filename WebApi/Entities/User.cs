@@ -1,6 +1,7 @@
 namespace WebApi.Entities;
 
 using System.Text.Json.Serialization;
+using WebApi.Models.Users;
 
 public class User
 {
@@ -10,4 +11,5 @@ public class User
     public string Email { get; set; }
     public string Username { get; internal set; }
     public string PasswordHash { get; internal set; }
+    public UserRole Role { get; set; }
 }

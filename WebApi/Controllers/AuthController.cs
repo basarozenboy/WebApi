@@ -38,7 +38,8 @@ namespace WebApi.Controllers
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword("q"),
                 Email = model.Email,
                 FirstName = model.FirstName,
-                LastName = model.LastName
+                LastName = model.LastName,
+                Role= model.Role
             };
             _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
@@ -58,8 +59,13 @@ namespace WebApi.Controllers
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Issuer =_configuration["Jwt:Issuer"],
-                Audience = _configuration["Jwt:Audience"],  
-                Subject = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, model.Username) }),
+                Audience = _configuration["Jwt:Audience"],
+                Subject = new ClaimsIdentity(new[] 
+                { 
+                    new Claim(ClaimTypes.Name, user.Username),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim(ClaimTypes.Role, user.Role.ToString())
+                }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
@@ -95,12 +101,14 @@ namespace WebApi.Controllers
         public IActionResult GetUser()
         {
             var username = User.Identity?.Name;
+            var role = User.FindFirst(ClaimTypes.Role)?.Value; // 🔹 Extract role from claims
+
             if (string.IsNullOrEmpty(username))
             {
                 return Unauthorized(); // 🔹 If not logged in, return 401
             }
 
-            return Ok(new { username });
+            return Ok(new { username, role }); // 🔹 Return username and role
         }
     }
 

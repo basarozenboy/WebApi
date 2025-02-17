@@ -1,4 +1,4 @@
-namespace WebApi.Helpers;
+﻿namespace WebApi.Helpers;
 
 using Microsoft.EntityFrameworkCore;
 using WebApi.Entities;
@@ -20,4 +20,11 @@ public class DataContext : DbContext
     }
 
     public DbSet<User> Users { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<User>()
+            .Property(u => u.Role)
+            .HasConversion<string>();
+    }
 }

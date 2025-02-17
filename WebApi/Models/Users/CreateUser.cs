@@ -20,4 +20,6 @@ public class CreateUser
     public string Username { get; set; }
 
     public string Password { get; internal set; }
+
+    public UserRole Role { get; set; }
 }
